@@ -26,4 +26,26 @@ const getById = async (id) => {
   return product;
 };
 
-module.exports = { getAll, getById };
+const create = async (name) => {
+  if (name === undefined) {
+    return {
+      error: {
+        status: 400,
+        message: '"name" is required',
+      },
+    };
+  }
+
+  if (name.length < 5) {
+    return {
+      error: {
+        status: 422,
+        message: '"name" length must be at least 5 characters long',
+      },
+    };
+  }
+
+  return productsModel.create(name);
+};
+
+module.exports = { getAll, getById, create };

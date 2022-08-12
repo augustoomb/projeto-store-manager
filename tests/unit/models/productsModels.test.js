@@ -41,10 +41,12 @@ describe('Ao buscar um produto específico na api', () => {
 
   before(async () => {
     const execute = [
-      {
-        "id": 1,
-        "name": "Martelo de Thor",
-      }
+      [
+        {
+          "id": 1,
+          "name": "Martelo de Thor",
+        }
+      ]
     ]
 
     sinon.stub(connection, 'execute').resolves(execute);

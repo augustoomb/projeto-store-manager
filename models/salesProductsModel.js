@@ -7,7 +7,7 @@ const create = async (saleId, productId, quantity) => {
   );
 
   return {
-    id: saleId,
+    // id: saleId,
     productId,
     quantity,
   };

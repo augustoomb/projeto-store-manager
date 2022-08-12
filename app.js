@@ -2,6 +2,8 @@ const express = require('express');
 const rescue = require('express-rescue');
 const productsController = require('./controllers/productsControllers');
 
+const salesController = require('./controllers/salesControllers');
+
 const errorMiddleware = require('./middlewares/error');
 
 const app = express();
@@ -15,6 +17,8 @@ app.get('/', (_request, response) => {
 app.get('/products', rescue(productsController.getAll));
 app.get('/products/:id', rescue(productsController.getById));
 app.post('/products', rescue(productsController.create));
+
+app.post('/sales', rescue(salesController.create));
 
 app.use(errorMiddleware);
 

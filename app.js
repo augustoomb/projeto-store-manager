@@ -18,6 +18,8 @@ app.get('/products', rescue(productsController.getAll));
 app.get('/products/:id', rescue(productsController.getById));
 app.post('/products', rescue(productsController.create));
 
+app.get('/sales', rescue(salesController.getAll));
+app.get('/sales/:id', rescue(salesController.getById));
 app.post('/sales', rescue(salesController.create));
 
 app.use(errorMiddleware);

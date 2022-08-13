@@ -7,12 +7,30 @@ const {
   checkProductId, checkQuantity, checkQuantityIsGreaterThanZero, checkProductsExistsInDb,
 } = salesValidations;
 
+// usado apenas para montar o retorno da função create;
 function mountReturn(salesProduct, id) {
   return {
     id,
     itemsSold: salesProduct,
   };
 }
+
+const getAll = async () => salesModel.getlAll();
+
+const getById = async (id) => {
+  const sale = await salesModel.getById(id);
+
+  if (sale.length === 0) {
+    return {
+      error: {
+        status: 404,
+        message: 'Sale not found',
+      },
+    };
+  }
+
+  return sale;
+};
 
 const create = async (arrSalesProd) => {
   const productIdIsError = checkProductId(arrSalesProd);
@@ -41,4 +59,6 @@ const create = async (arrSalesProd) => {
 
 module.exports = {
   create,
+  getAll,
+  getById,
 };

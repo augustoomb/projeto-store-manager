@@ -71,3 +71,31 @@ describe('Ao buscar um produto específico na api', () => {
     expect(result).to.be.a.property('name');
   });
 })
+
+describe('Ao inserir um novo produto na api', () => {
+  const payloadProd = {
+    name: "Cerveja Heineken"
+  }
+  before(async () => {
+    const execute = [{ insertId: 1 }];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  })
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  describe('Quando é inserido com sucesso', () => {
+    it('retorna um objeto', async () => {
+      const response = await productsModel.create(payloadProd);
+      expect(response).to.be.a('object');
+    })
+
+    it('tal objeto possui o "id" do novo produto inserido', async () => {
+      const response = await productsModel.create(payloadProd);
+
+      expect(response).to.have.a.property('id')
+    });
+  })
+});

@@ -16,6 +16,14 @@ const getById = async (id) => {
   return result[0];
 };
 
+const productExists = async (id) => {
+  const [result] = await connection.execute(
+    `SELECT EXISTS(SELECT id FROM StoreManager.products WHERE id = ${id}) AS prodExists`,
+  );
+
+  return result[0];
+};
+
 const create = async (name) => {
   const [product] = await connection.execute(
     'INSERT INTO StoreManager.products (name) VALUES (?)',
@@ -25,4 +33,4 @@ const create = async (name) => {
   return { id: product.insertId, name };
 };
 
-module.exports = { getAll, getById, create };
+module.exports = { getAll, getById, create, productExists };

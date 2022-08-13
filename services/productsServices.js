@@ -2,6 +2,11 @@ const productsModel = require('../models/productsModels');
 
 const getAll = async () => productsModel.getAll();
 
+const productExists = async (id) => {
+  const arrBooleansProdExists = await productsModel.productExists(id);
+  return arrBooleansProdExists;
+};
+
 const getById = async (id) => {
   if (!id || !Number.isInteger(Number(id))) {
     return {
@@ -48,4 +53,4 @@ const create = async (name) => {
   return productsModel.create(name);
 };
 
-module.exports = { getAll, getById, create };
+module.exports = { getAll, getById, create, productExists };

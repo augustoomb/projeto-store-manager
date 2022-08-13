@@ -65,3 +65,49 @@ describe('Ao buscar um produto específico no banco', () => {
     });
   });
 });
+
+describe('Ao criar um novo produto', () => {
+
+  describe('e um name inválido é fornecido', () => {
+
+    it('um objeto é retornado', async () => {
+      const result = await productsService.getById();
+      expect(result).to.have.a.property('error');
+    });
+  });
+
+  describe('e um name com tamanho menor que 5 é fornecido', () => {
+    const name = 'abc';
+    it('um objeto é retornado', async () => {
+      const result = await productsService.getById(name);
+      expect(result).to.have.a.property('error');
+    });
+  });
+
+  describe('e um name válido é fornecido', () => {
+    const prodName = 'Sprite';
+
+    before(() => {
+      const productId = 1;
+
+      sinon.stub(productsModel, 'create')
+        .resolves({ id: productId })
+    });
+
+    after(() => {
+      productsModel.create.restore();
+    });
+
+    it('retorna um objeto', async () => {
+      const response = await productsService.create(prodName);
+
+      expect(response).to.be.a('object');
+    });
+
+    it('tal objeto possui o "id" do novo prod inserido', async () => {
+      const response = await productsService.create(prodName);
+
+      expect(response).to.have.a.property('id');
+    });
+  });
+});

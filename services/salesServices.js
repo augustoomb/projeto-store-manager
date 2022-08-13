@@ -17,12 +17,13 @@ function mountReturn(salesProduct, id) {
 const create = async (arrSalesProd) => {
   const productIdIsError = checkProductId(arrSalesProd);
   const quantityIsError = checkQuantity(arrSalesProd);
-  const sizeIsError = checkQuantityIsGreaterThanZero(arrSalesProd);
-  const productIdExistsIsError = await checkProductsExistsInDb(arrSalesProd);
+  const sizeIsError = checkQuantityIsGreaterThanZero(arrSalesProd);  
 
   if (productIdIsError.error) return productIdIsError;
   if (quantityIsError.error) return quantityIsError;
   if (sizeIsError.error) return sizeIsError;
+
+  const productIdExistsIsError = await checkProductsExistsInDb(arrSalesProd);
   if (productIdExistsIsError.error) return productIdExistsIsError;
 
   const { saleId } = await salesModel.create();

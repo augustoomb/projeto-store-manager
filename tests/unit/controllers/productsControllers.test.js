@@ -5,6 +5,7 @@ const productsService = require('../../../services/productsServices');
 const productsControllers = require('../../../controllers/productsControllers');
 
 describe('Ao chamar o getAll do productController', () => {
+  beforeEach(sinon.restore)
   it('espera-se um código 200 como resposta', async () => {
     sinon.stub(productsService, 'getAll').resolves(
       [
@@ -27,10 +28,46 @@ describe('Ao chamar o getAll do productController', () => {
     const res = {};
 
     res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns();
+    res.json = sinon.stub().returns(res);
 
     await productsControllers.getAll(req, res);
 
     expect(res.status.calledWith(200)).to.be.true;
+  });
+
+  after(() => {
+    productsService.getAll.restore();
+  });
+});
+
+describe('Ao chamar o getById do productController', () => {
+  beforeEach(sinon.restore)
+
+  const response = {};
+  const request = {};
+
+
+  before(() => {
+    request.params = {
+      id: 1,
+    };
+
+    response.status = sinon.stub()
+      .returns(response);
+    response.json = sinon.stub()
+      .returns();
+
+    sinon.stub(productsService, 'getById')
+      .resolves(true);
+  })
+
+  // after(() => {
+  //   productsService.getById.restore();
+  // });
+
+  it('é chamado o status com o código 200', async () => {
+    await productsControllers.getById(request, response);
+
+    expect(response.status.calledWith(200)).to.be.equal(true);
   });
 });

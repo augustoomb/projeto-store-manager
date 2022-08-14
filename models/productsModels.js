@@ -13,6 +13,7 @@ const getById = async (id) => {
     `SELECT id, name FROM StoreManager.products WHERE id = ${id}`,
   );
 
+  console.log(result[0]);
   return result[0];
 };
 

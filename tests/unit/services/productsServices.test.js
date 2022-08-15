@@ -68,14 +68,6 @@ describe('Ao buscar um produto específico no banco', () => {
 
 describe('Ao criar um novo produto', () => {
 
-  describe('e um name inválido é fornecido', () => {
-
-    it('um objeto é retornado', async () => {
-      const result = await productsService.getById();
-      expect(result).to.have.a.property('error');
-    });
-  });
-
   describe('e um name com tamanho menor que 5 é fornecido', () => {
     const name = 'abc';
     it('um objeto é retornado', async () => {

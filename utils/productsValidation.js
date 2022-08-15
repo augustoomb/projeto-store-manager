@@ -1,11 +1,16 @@
 const Joi = require('joi');
 
-const schema = Joi.object({
+const schemaName = Joi.object({
   name: Joi.string()
     .min(5)
-    .required(),
+    .required(),  
+});
+
+const schemaId = Joi.object({
+  id: Joi.number()
+    .integer(),
 });
 
 module.exports = {
-  schema,
+  schemaName, schemaId,
 };

@@ -26,11 +26,13 @@ const create = async (req, res, next) => {
   return res.status(201).json(product);
 };
 
-const update = async (req, res, _next) => {
+const update = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
 
   const product = await productsServices.update(id, name);
+
+  if (product.error) return next(product.error);
 
   return res.status(200).json(product);
 };

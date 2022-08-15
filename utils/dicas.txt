@@ -1,0 +1,73 @@
+// erro quando o tamanho minimo não é atingido
+
+/*
+
+{
+  message: '"name" length must be at least 3 characters long',
+  path: [ 'name' ],
+  type: 'string.min',  // USAR ISSO PARA DIFERENCIAR
+  context: {
+    limit: 3,
+    value: 'ab',
+    encoding: undefined,
+    label: 'name',
+    key: 'name'
+  }
+}
+
+*/
+
+// erro quando o campo não é informado
+
+/*
+
+{
+  _original: { name: undefined },
+  details: [
+    {
+      message: '"name" is required',
+      path: [Array],
+      type: 'any.required',  // USAR ISSO PARA DIFERENCIAR
+      context: [Object]
+    }
+  ]
+}
+
+*/
+
+
+
+
+---------------------
+
+// ESTRUTURA QUE O UPDATE (MYSQL2) DEVOLVE, APENAS PARA CONSULTA:
+
+/*
+
+// No caso de um update ser consumado de fato:
+
+ResultSetHeader {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 0,
+  info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+  serverStatus: 2,
+  warningStatus: 0,
+  changedRows: 1
+}
+
+// No caso de uma tentativa de update válido, mas com os mesmos dados fornecidos acima...
+// ... isso quer dizer que não vai dar erro, mas o banco também não vai atualizar
+// (observar o abaixo o "Changed: 0", enquanto acima, é "Changed: 1")
+
+ResultSetHeader {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 0,
+  info: 'Rows matched: 1  Changed: 0  Warnings: 0',
+  serverStatus: 2,
+  warningStatus: 0,
+  changedRows: 0
+}
+
+*/

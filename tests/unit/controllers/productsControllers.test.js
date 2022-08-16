@@ -41,10 +41,9 @@ describe('Ao chamar o getAll do productController', () => {
 });
 
 describe('Ao chamar o getById do productController', () => {
-  beforeEach(sinon.restore)
-
   const response = {};
   const request = {};
+  let next = () => { };
 
 
   before(() => {
@@ -58,15 +57,15 @@ describe('Ao chamar o getById do productController', () => {
       .returns();
 
     sinon.stub(productsService, 'getById')
-      .resolves(true);
+      .resolves({});
   })
 
-  // after(() => {
-  //   productsService.getById.restore();
-  // });
+  after(() => {
+    productsService.getById.restore();
+  });
 
   it('é chamado o status com o código 200', async () => {
-    await productsControllers.getById(request, response);
+    await productsControllers.getById(request, response, next);
 
     expect(response.status.calledWith(200)).to.be.equal(true);
   });

@@ -69,8 +69,8 @@ const removeRepeatedElements = (arrProductsId) => [...new Set(arrProductsId)];
 const checkProductsExistsInDb = async (arrSalesProd) => {
   let returnObj = {};
 
-  const arrProductsId = getAllProductsId(arrSalesProd); // AQUI TENHO UM ARR SÓ COM OS PROD IDs DOS PROD
-  const arrProdIdWithoutRep = removeRepeatedElements(arrProductsId);// REMOVO OS PROD IDs REPETIDOS
+  const arrProductsId = getAllProductsId(arrSalesProd); // AQUI TENHO UM ARR SÓ COM OS PROD IDs DOS PRODs
+  const arrProdIdWithoutRep = removeRepeatedElements(arrProductsId);// REMOVO OS PROD IDs REPETIDOS (opcional)
 
   // TESTA SE CADA PROD ID EXISTE NO BANCO. NO FIM DO PROCESSO VOU TER UM ARR COM ELEMENTOS 0 ou 1.
   // 0: O ELEMENTO NÃO FOI ENCONTRADO. 1: O ELEMENTO FOI ENCONTRADO

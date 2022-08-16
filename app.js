@@ -23,6 +23,7 @@ app.delete('/products/:id', rescue(productsController.deleteProduct));
 app.get('/sales', rescue(salesController.getAll));
 app.get('/sales/:id', rescue(salesController.getById));
 app.post('/sales', rescue(salesController.create));
+app.delete('/sales/:id', rescue(salesController.deleteSale));
 
 app.use(errorMiddleware);
 

@@ -16,6 +16,15 @@ const getById = async (id) => {
   return result[0];
 };
 
+const searchByTerm = async (term) => {
+  const [result] = await connection.execute(
+    // `SELECT id, name FROM StoreManager.products WHERE id = ${id}`,
+    `SELECT id, name FROM StoreManager.products WHERE name LIKE '%${term}%'`,
+  );
+
+  return result;
+};
+
 const productExists = async (id) => {
   const [result] = await connection.execute(
     `SELECT EXISTS(SELECT id FROM StoreManager.products WHERE id = ${id}) AS prodExists`,
@@ -51,4 +60,4 @@ const deleteProduct = async (id) => {
   return {};
 };
 
-module.exports = { getAll, getById, create, productExists, update, deleteProduct };
+module.exports = { getAll, getById, searchByTerm, create, productExists, update, deleteProduct };

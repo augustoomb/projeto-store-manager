@@ -14,6 +14,7 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
+app.get('/products/search', rescue(productsController.searchByTerm)); // buscar por termo informado
 app.get('/products', rescue(productsController.getAll));
 app.get('/products/:id', rescue(productsController.getById));
 app.post('/products', rescue(productsController.create));

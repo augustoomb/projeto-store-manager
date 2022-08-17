@@ -16,6 +16,14 @@ const getById = async (req, res, next) => {
   return res.status(200).json(product);
 };
 
+const searchByTerm = async (req, res, _next) => {
+  const { q } = req.query;
+
+  const products = await productsServices.searchByTerm(q);
+
+  return res.status(200).json(products);
+};
+
 const create = async (req, res, next) => {
   const { name } = req.body;
 
@@ -47,4 +55,4 @@ const deleteProduct = async (req, res, next) => {
   return res.status(204).end();
 };
 
-module.exports = { getAll, getById, create, update, deleteProduct };
+module.exports = { getAll, getById, searchByTerm, create, update, deleteProduct };

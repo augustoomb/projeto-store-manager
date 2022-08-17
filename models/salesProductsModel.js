@@ -41,8 +41,6 @@ const saleIdExists = async (saleId) => {
       WHERE sale_id = ${saleId})  AS saleExists`,
   );
 
-  console.log(result[0]);
-
   return result[0];
 };
 
@@ -51,8 +49,6 @@ const prodIdExists = async (productId) => {
     `SELECT EXISTS(SELECT * FROM StoreManager.sales_products
       WHERE product_id = ${productId})  AS saleExists`,
   );
-
-  console.log(result[0]);
 
   return result[0];
 };

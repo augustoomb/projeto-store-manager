@@ -24,6 +24,12 @@ const getById = async (id) => {
   return product;
 };
 
+const searchByTerm = async (term) => {
+  const products = await productsModel.searchByTerm(term);
+
+  return products;
+};
+
 const create = async (name) => {
   const errorName = schemaName.validate({ name }); // validando o nome com join
   if (errorName.error) { return mountObjErrorJoi(errorName); }
@@ -58,4 +64,4 @@ const deleteProduct = async (id) => {
   return productsModel.deleteProduct(id);
 };
 
-module.exports = { getAll, getById, create, productExists, update, deleteProduct };
+module.exports = { getAll, getById, searchByTerm, create, productExists, update, deleteProduct };

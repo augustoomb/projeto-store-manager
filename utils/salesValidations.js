@@ -1,4 +1,5 @@
 const productsServices = require('../services/productsServices');
+const salesProductsModel = require('../models/salesProductsModel');
 
 // SE ALGUM ITEM DO ARR TIVER productId UNDEFINED, O OBJ DE ERRO É PREENCHIDO E DEPOIS RETORNADO
 const checkProductId = (arrSalesProd) => {
@@ -93,9 +94,32 @@ const checkProductsExistsInDb = async (arrSalesProd) => {
   return returnObj;
 };
 
+const saleExists = async (saleId, productId) => {
+  const booleanObjSaleIdExists = await salesProductsModel.saleIdExists(saleId);
+  const booleanObjProdIdExists = await salesProductsModel.prodIdExists(productId);
+  if (booleanObjSaleIdExists.saleExists === 0) {
+    return {
+      error: {
+        status: 404, message: 'Sale not found',
+      },
+    };
+  }
+
+  if (booleanObjProdIdExists.saleExists === 0) {
+    return {
+      error: {
+        status: 404, message: 'Product not found',
+      },
+    };
+  }
+
+  return booleanObjSaleIdExists; // 1 existe
+};
+
 module.exports = {
   checkProductId,
   checkQuantity,
   checkQuantityIsGreaterThanZero,
   checkProductsExistsInDb,
+  saleExists,
 };

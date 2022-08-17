@@ -5,15 +5,8 @@ const salesValidations = require('../utils/salesValidations');
 
 const {
   checkProductId, checkQuantity, checkQuantityIsGreaterThanZero, checkProductsExistsInDb,
+  saleExists,
 } = salesValidations;
-
-// usado apenas para montar o retorno da função create;
-// function mountReturn(salesProduct, id) {
-//   return {
-//     id,
-//     itemsSold: salesProduct,
-//   };
-// }
 
 const getAll = async () => salesModel.getlAll();
 
@@ -69,6 +62,40 @@ const create = async (arrSalesProd) => {
   // return obj;
 };
 
+const update = async (saleId, arrSalesProd) => {
+  // CHECA ERROS SIMPLES NOS DADOS INFORMADOS NO BODY
+  const productIdIsError = checkProductId(arrSalesProd);
+  if (productIdIsError.error) return productIdIsError;
+  const quantityIsError = checkQuantity(arrSalesProd);
+  if (quantityIsError.error) return quantityIsError;
+  const sizeIsError = checkQuantityIsGreaterThanZero(arrSalesProd);
+  if (sizeIsError.error) return sizeIsError;
+
+    // checa se o saleId passado na URL e o prodId passado em cada obj do arr do body, existem no bd
+  const saleExistsIsError = await Promise.all(
+    arrSalesProd.map((salesProd) => saleExists(saleId, salesProd.productId)),
+  );
+
+  // a linha acima testa cada prodId passado no body
+  // ao final, terei um arr, sendo que cada item do arr terá o resultado do teste...
+  // ...no caso do prodId não encontrado, o item terá a propriedade error.
+  // abaixo testo e filtro todos os elementos que contem esse erro...
+  const searchErrors = saleExistsIsError.filter((item) => item.error !== undefined);
+
+  // ... se o arr tiver pelo menos 1 elemento, sei que deu erro (prod ou sales não encontrado no bd)
+  if (searchErrors.length > 0) { return searchErrors[0]; }
+
+  // chegando aqui, não há erros. Por isso, basta atualizar os dados no banco
+  const salesProductUpdated = await Promise.all(
+    arrSalesProd.map((salesProd) => salesProductModel.update(
+      saleId, salesProd.productId, salesProd.quantity,
+    )),
+  );
+
+  // e retornar conforme pedido no requisito.
+  return { saleId, itemsUpdated: salesProductUpdated };
+};
+
 const deleteSale = async (id) => {
   const sale = await salesModel.getById(id);
 
@@ -88,5 +115,6 @@ module.exports = {
   create,
   getAll,
   getById,
+  update,
   deleteSale,
 };

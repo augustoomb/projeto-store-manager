@@ -23,6 +23,14 @@ const getById = async (id) => {
   return result;
 };
 
+// const saleExists = async (id) => {
+//   const [result] = await connection.execute(
+//     `SELECT EXISTS(SELECT id FROM StoreManager.sales WHERE id = ${id}) AS saleExists`,
+//   );
+
+//   return result[0];
+// };
+
 const create = async () => {
   const [sale] = await connection.execute(
     'INSERT INTO StoreManager.sales () VALUES ()',

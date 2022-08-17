@@ -67,3 +67,43 @@ describe('Ao chamar o getById do salesController', () => {
     expect(response.status.calledWith(200)).to.be.equal(true);
   });
 });
+
+describe('Ao chamar o create do salesController', () => {
+  beforeEach(sinon.restore)
+
+  const response = {};
+  const request = {};
+  let next = () => { };
+
+
+  before(() => {
+    request.body = [
+      {
+        "productId": 1,
+        "quantity": 1
+      },
+      {
+        "productId": 2,
+        "quantity": 5
+      }
+    ];
+
+    response.status = sinon.stub()
+      .returns(response);
+    response.json = sinon.stub()
+      .returns();
+
+    sinon.stub(salesService, 'create')
+      .resolves(true);
+  })
+
+  // after(() => {
+  //   productsService.getById.restore();
+  // });
+
+  it('é chamado o status com o código 201', async () => {
+    await salesControllers.create(request, response, next);
+
+    expect(response.status.calledWith(201)).to.be.equal(true);
+  });
+});
